@@ -21,3 +21,17 @@ ALTER USER sweetspot_user SET search_path TO public;
 git commit -m "Configured PostgreSQL and connected Django"
 git push origin main
  -->
+# View Customers:
+# SELECT * FROM sweetspot_app_customer;
+
+# View Cakes:
+# SELECT * FROM sweetspot_app_cake;
+
+# View Cake Customizations:
+# SELECT * FROM sweetspot_app_cakecustomization;
+
+# View Carts:
+# SELECT * FROM sweetspot_app_cart;
+
+# View Orders:
+# SELECT * FROM sweetspot_app_order;

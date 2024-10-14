@@ -12,4 +12,5 @@ router.register(r'orders', OrderViewSet)
 # urlpatterns = router.urls
 urlpatterns = [
     path('', include(router.urls)),
+    path('customers/login/', CustomerViewSet.as_view({'post': 'login'}), name='customer-login'),
 ]

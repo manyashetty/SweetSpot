@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 class Customer(models.Model):
     email = models.EmailField(unique=True)
@@ -10,6 +11,11 @@ class Customer(models.Model):
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     pincode = models.CharField(max_length=10)
+    
+    def save(self, *args, **kwargs):
+        # Hash the password before saving the customer
+        self.password = make_password(self.password)
+        super(Customer, self).save(*args, **kwargs)
 
     # def __str__(self):
     #     return f"{self.first_name} {self.last_name} ({self.email})"

@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from .models import Customer, Cake, CakeCustomization, Cart, Order
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
