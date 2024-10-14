@@ -1,7 +1,10 @@
 # SweetSpot
 # run commmands
+# venv\Scripts\activate
+
 # python manage.py makemigrations
 # python manage.py migrate 
+# python manage.py runserver
 
 <!-- CREATE DATABASE sweetspot_db;
 CREATE USER sweetspot_user WITH PASSWORD 'your_password';
