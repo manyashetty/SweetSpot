@@ -21,9 +21,12 @@ class CakeCustomizationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CartSerializer(serializers.ModelSerializer):
+    cakes = serializers.PrimaryKeyRelatedField(many=True, queryset=Cake.objects.all())
+    customization = serializers.PrimaryKeyRelatedField(queryset=CakeCustomization.objects.all(), allow_null=True, required=False)
+    
     class Meta:
         model = Cart
-        fields = '__all__'
+        fields = ['id', 'customer', 'cakes', 'quantity', 'customization', 'total_amount']
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

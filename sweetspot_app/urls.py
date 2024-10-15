@@ -13,4 +13,8 @@ router.register(r'orders', OrderViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('customers/login/', CustomerViewSet.as_view({'post': 'login'}), name='customer-login'),
+    path('carts/add_to_cart/', CartViewSet.as_view({'post': 'add_to_cart'}), name='add_to_cart'),
+    path('orders/place_order/', OrderViewSet.as_view({'post': 'place_order'}), name='place_order'),
+    
+    
 ]

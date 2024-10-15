@@ -44,7 +44,7 @@ class CakeCustomization(models.Model):
     #     return f"Customization for {self.cake.name} by {self.customer.email}"
     
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
     cakes = models.ManyToManyField(Cake)
     quantity = models.PositiveIntegerField(default=1)
     customization = models.ForeignKey(CakeCustomization, on_delete=models.SET_NULL, null=True, blank=True)
