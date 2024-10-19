@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework import viewsets, status
 from decimal import Decimal
+from django.core.mail import send_mail
 from rest_framework.response import Response
 from django.contrib.auth.hashers import check_password
 from .models import Customer, Cake, CakeCustomization, Cart, Order
@@ -212,7 +213,8 @@ class OrderViewSet(viewsets.ModelViewSet):
                 {"error": f"The following cakes are not available: {[cake.name for cake in unavailable_cakes]}"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+        total_price = sum(Decimal(cake.price) * cart.quantity for cake in cart.cakes.all())
+        
         # Create the order
         order = Order.objects.create(
             customer=customer,
@@ -231,11 +233,59 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.save()
 
         # Clear the cart after placing the order
+        self.clear_cart(cart)
+
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def clear_cart(self, cart):
+        cart.cakes.clear()  # Clear all cakes from the cart
+        cart.quantity = 0
+        cart.customization = None
+        cart.total_amount = 0.00
+        cart.save()
+        
+    @action(detail=True, methods=['put'], url_path='update_order')
+    def update_order(self, request, pk=None):
+        order = get_object_or_404(Order, id=pk)
+
+        # Update order details
+        total_price = request.data.get('total_price')
+        payment_status = request.data.get('payment_status')
+
+        if total_price is not None:
+            order.total_price = total_price
+        
+        if payment_status in ['Pending', 'Completed']:
+            order.payment_status = payment_status
+        else:
+            return Response({"error": "Invalid payment status"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save updated order
+        order.save()
+
+        # Send confirmation email
+        self.send_order_confirmation_email(order)
+
+        # Remove items from the cart
+        self.clear_cart(get_object_or_404(Cart, customer=order.customer))
+
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def send_order_confirmation_email(self, order):
+        customer_name = getattr(order.customer, 'name', 'Customer')
+        subject = "Payment Successful! Your order has been placed."
+        message = f"Dear {customer_name},\n\nThank you for your order! Your order ID is {order.id}. We will notify you once it is shipped."
+        from_email = "19409manyashetty@egmail.com"  # Use your email
+        recipient_list = [order.customer.email]
+
+        send_mail(subject, message, from_email, recipient_list)
+
+    def remove_items_from_cart(self, customer):
+        cart = get_object_or_404(Cart, customer=customer)
         cart.cakes.clear()
         cart.quantity = 0
         cart.customization = None
         cart.total_amount = 0.00
         cart.save()
-
-        serializer = OrderSerializer(order)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)

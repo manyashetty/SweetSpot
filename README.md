@@ -18,7 +18,7 @@ ALTER USER sweetspot_user SET search_path TO public;
 -->
 
 <!-- git add .
-git commit -m "Configured PostgreSQL and connected Django"
+git commit -m "done with order api with cake id in cart "
 git push origin main
  -->
 # View Customers:
