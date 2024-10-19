@@ -9,6 +9,15 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
+    def validate_phone_no(self, value):
+        if not value.isdigit() or not (10 <= len(value) <= 15):
+            raise serializers.ValidationError("Invalid phone number.")
+        return value
+
+    def validate_pincode(self, value):
+        if not value.isdigit() or len(value) != 6:
+            raise serializers.ValidationError("Invalid pincode.")
+        return value
 
 class CakeSerializer(serializers.ModelSerializer):
     class Meta:
