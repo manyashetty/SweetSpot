@@ -1,44 +1,28 @@
 # Python
-*.py[cod]
-*.pyo
 __pycache__/
-*.so
+*.py[cod]
+*.sqlite3
+*.db
+
+# Virtual Environment
+venv/
+env/
+ENV/
 
 # Django
 *.log
 *.pot
 *.pyc
 *.pyo
-*.pyd
-*.sqlite3
-*.db
-*.mo
-*.pot
-*.pyc
-*.pyo
-*.pyd
-__pycache__/
-local_settings.py
+db.sqlite3
+media/
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDEs and editors
-.vscode/
+# PyCharm
 .idea/
-*.swp
-*~
 
-# Windows
-Thumbs.db
-ehthumbs.db
+# VS Code
+.vscode/
 
-# Ignore all files in the cakes folder
-cakes/*
-example.http
+# Other files
+*.DS_Store
+*.env

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1&3ezp@klk9@dnfaq4#7+6^h*c^-_#8jo)r07()ivu70at*j%-'
+SECRET_KEY = 'django-insecure-r&#lc8ti0$@881xk+13n&ssusi_am_47&5&pwxegdv6m+4^bb8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+#email details:::
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '19409manyashetty@gmail.com'
+EMAIL_HOST_PASSWORD = 'zrhr ydkk rckz ozvt'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
 
 
 # Application definition
@@ -37,11 +47,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
+    'sweetspot_app',
     'rest_framework',
-    'drf_yasg',
-
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny', ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,13 +91,20 @@ WSGI_APPLICATION = 'sweetspot_pro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sweetspot', 
-        'USER': 'postgres',
-        'PASSWORD': 'postgres1234',
-        'HOST': '127.0.0.1', 
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sweetspot_db',
+        'USER': 'sweetspot_user',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
